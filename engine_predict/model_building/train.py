@@ -1,10 +1,28 @@
 import pandas as pd
 import joblib
+from pyngrok import ngrok
+import subprocess
 import mlflow
 from datasets import load_dataset
 from huggingface_hub import hf_hub_download
 import mlflow.sklearn
 from sklearn.metrics import classification_report
+
+# Set your auth token here (replace with your actual token)
+ngrok.set_auth_token("35sZZXdVWGqR8CTDSZ4Ig2g3plm_FW9eq7c9TFgtsKqrHugW")
+
+# Start MLflow UI on port 5000
+process = subprocess.Popen(["mlflow", "ui", "--port", "5000"])
+
+# Create public tunnel
+public_url = ngrok.connect(5000).public_url
+print("MLflow UI is available at:", public_url)
+
+# Set the tracking URL for MLflow
+mlflow.set_tracking_uri(public_url)
+
+# Set the name for the experiment
+mlflow.set_experiment("AdaBoost-Predictive-Maintenance")
 
 HF_DATASET = "vihu21/predictive_maintenance"
 target_col = 'Engine Condition'
@@ -17,11 +35,6 @@ dataset4 = load_dataset(HF_DATASET, data_files="engine_predict/master/data/ytest
 test_dataset = dataset4['train']
 df_ytest = pd.DataFrame(list(test_dataset[target_col]), columns=[target_col])
 y_test= df_ytest[target_col].values.ravel()
-
-# ✅ Correct MLflow config for Colab
-mlflow.set_tracking_uri("http://localhost:8080")
-#mlflow.set_tracking_uri("file:/content/mlruns")
-mlflow.set_experiment("AdaBoost-Predictive-Maintenance")
 
 # Load model from Hugging Face
 
