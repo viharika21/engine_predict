@@ -28,7 +28,7 @@ jobs:
       - name: Run Data Preparation
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: python engine_predict/model_building/prep.py
+        run: python engine_predict/model_building/data_prep.py
 
 
   model-traning:
