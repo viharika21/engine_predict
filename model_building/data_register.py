@@ -8,7 +8,7 @@ HF_USERNAME = "vihu21"
 DATASET_NAME = "predictive_maintenance"
 REPO_ID = f"{HF_USERNAME}/{DATASET_NAME}"
 
-RAW_DATA_PATH = "master/data/engine_data.csv"
+RAW_DATA_PATH = "engine_predict/master/data/engine_data.csv"
 
 # -----------------------------
 # CREATE DATASET REPOSITORY

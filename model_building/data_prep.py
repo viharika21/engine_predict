@@ -10,9 +10,21 @@ from sklearn.preprocessing import LabelEncoder
 # for hugging face space authentication to upload files
 from huggingface_hub import login, HfApi
 
+
+
+def remove_outliers_iqr(df, column):
+    Q1 = df[column].quantile(0.25)
+    Q3 = df[column].quantile(0.75)
+    IQR = Q3 - Q1
+    lower_bound = Q1 - 1.5 * IQR
+    upper_bound = Q3 + 1.5 * IQR
+
+    filtered_df = df[(df[column] >= lower_bound) & (df[column] <= upper_bound)]
+    return filtered_df
+
 # Define constants for the dataset and output paths
 api = HfApi(token=os.getenv("HF_TOKEN"))
-DATASET_PATH = "hf://datasets/vihu21/predictive_maintenance/master/data/engine_data.csv"
+DATASET_PATH = "hf://datasets/vihu21/predictive_maintenance/engine_predict/master/data/engine_data.csv"
 df = pd.read_csv(DATASET_PATH)
 print("Dataset loaded successfully.")
 
@@ -45,7 +57,7 @@ files = ["Xtrain.csv","Xtest.csv","ytrain.csv","ytest.csv"]
 for file_path in files:
     api.upload_file(
         path_or_fileobj=file_path,
-        path_in_repo=f"master/data/{file_path}",  # just the filename
+        path_in_repo=f"engine_predict/master/data/{file_path}",  # just the filename
         repo_id="vihu21/predictive_maintenance",
         repo_type="dataset",
     )
