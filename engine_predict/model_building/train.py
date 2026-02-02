@@ -19,8 +19,8 @@ df_ytest = pd.DataFrame(list(test_dataset[target_col]), columns=[target_col])
 y_test= df_ytest[target_col].values.ravel()
 
 # ✅ Correct MLflow config for Colab
-#mlflow.set_tracking_uri("http://localhost:8080")
-mlflow.set_tracking_uri("file:/content/mlruns")
+mlflow.set_tracking_uri("http://localhost:8080")
+#mlflow.set_tracking_uri("file:/content/mlruns")
 mlflow.set_experiment("AdaBoost-Predictive-Maintenance")
 
 # Load model from Hugging Face
