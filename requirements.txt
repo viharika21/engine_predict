@@ -7,4 +7,5 @@ xgboost==2.1.4
 joblib==1.4.2
 streamlit==1.43.2
 huggingface_hub==0.29.3
-mlflow
+mlflow==3.0.1 
+pyngrok==7.2.12
